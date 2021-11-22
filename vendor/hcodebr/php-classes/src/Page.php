@@ -11,14 +11,14 @@ class Page {
     ];
 
     //o metodo construtor é o primeira a ser inicializado
-    public function __construct($opts = array()){
+    public function __construct($opts = array(), $tpl_dir="/views/"){
 
         $this->options = array_merge($this->defaults, $opts);
 
 
         $config = array(
             //configuração do caminho onde se encontra o template
-            "tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]."/views/",
+            "tpl_dir"       => $_SERVER["DOCUMENT_ROOT"].$tpl_dir,
             //configuração do caminho aonde vai ser armazenados os arquivos de cache
             "cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
             "debug"         => false // set to false to improve the speed
