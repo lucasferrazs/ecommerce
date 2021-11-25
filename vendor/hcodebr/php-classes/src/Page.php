@@ -17,6 +17,7 @@ class Page {
 
         $this->options = array_merge($this->defaults, $opts);
 
+    
 
         $config = array(
             //configuração do caminho onde se encontra o template
