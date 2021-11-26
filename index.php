@@ -245,7 +245,7 @@ $app->post("/admin/categories/create", function(){
 $app->get("/admin/categories/:idcategory/delete", function($idcategory){
 	$category = new Category();
 
-	$category->get((int)$idcategory);
+	$category->get((int)$idcategory); 
 
 	$category->delete();
 
@@ -282,11 +282,23 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 
 	
 	header("Location: /admin/categories");
-
 	exit;
 });
 
+$app->get("/categories/:idcategory", function($idcategory)
+{
+	$category = new Category();
 
+	$category->get((int)$idcategory);
+
+	$page = new Page();
+
+	$page->setTpl("category", [
+		'category'=>$category->getValues(),
+		'products'=>[]
+	]);
+
+});
 
 $app->run();
 

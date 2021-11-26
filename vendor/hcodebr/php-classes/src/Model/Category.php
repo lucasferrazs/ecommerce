@@ -23,6 +23,8 @@ class Category extends Model{
 
         ));
         $this->setData($results[0]);
+
+        Category::updateFile();
     }
 
    
@@ -30,7 +32,7 @@ class Category extends Model{
     {
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * from tb_categories where idcategory = :idcategory",[
+        $results = $sql->select("SELECT * from tb_categories where idcategory = :idcategory", [
             'idcategory'=>$idcategory
         ]);
 
@@ -44,8 +46,26 @@ class Category extends Model{
             //o this neste caso serve para trazer o atributo direto do metodo e nao como um parametro
             'idcategory'=>$this->getidcategory()
         ]);
+        Category::updateFile();
     }
-    public function update()
+    
+    public static function updateFile(){
+
+		$categories = Category::listAll();
+
+		$html = array();
+
+		foreach ($categories as $row ) {
+			array_push($html, '<li><a href="/categories/'.$row['idcategory'].'">'.$row['descategory'].'</a></li>');
+		}
+
+		file_put_contents($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR . "categories-menu.html", implode('', $html));
+	}
+} 
+?>
+
+
+<!--public function update()
     {
         $sql = new Sql();
 
@@ -54,6 +74,5 @@ class Category extends Model{
             ":descategory"=>$this->getdescategory()
         ));
         $this->setData($results[0]);
-    }
-} 
-?>
+        Category::updateFile();
+    }-->
