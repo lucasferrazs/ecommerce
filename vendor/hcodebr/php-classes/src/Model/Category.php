@@ -29,12 +29,12 @@ class Category extends Model{
     }
 
    
-    public function get($idcategory)
-    {
+    public function get($idcategory){
+
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * from tb_categories where idcategory = :idcategory", [
-            'idcategory'=>$idcategory
+        $results = $sql->select("SELECT * FROM tb_categories WHERE idcategory = :idcategory",[
+            ":idcategory"=>$idcategory
         ]);
 
         $this->setData($results[0]);
@@ -45,7 +45,7 @@ class Category extends Model{
         $sql = new Sql();
         $sql->query("DELETE FROM tb_categories where idcategory = :idcategory", [
             //o this neste caso serve para trazer o atributo direto do metodo e nao como um parametro
-            'idcategory'=>$this->getidcategory()
+            ':idcategory'=>$this->getidcategory()
         ]);
         Category::updateFile();
     }
@@ -91,6 +91,30 @@ class Category extends Model{
          }
      }
     
+    public function getProductsPage($page = 1 , $itemsPerpage = 3)
+    {
+        $start = ($page - 1) * $itemsPerpage;
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS *  
+                    FROM tb_products a 
+                    WHERE EXISTS ( SELECT 1 
+                        FROM tb_productscategories b
+                        WHERE b.idproduct = a.idproduct
+                        AND   b.idcategory = :idcategory)
+                        LIMIT $start, $itemsPerpage;", [
+                             ':idcategory'=>$this->getidcategory()
+                        ]);
+
+                        $resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+
+                       return [
+                        'data'=>Products::checkList($results),
+                        'total'=>(int)$resultTotal[0]["nrtotal"],
+                        'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerpage)
+                       ];
+    } 
 
     public function addProducts(Products $product)
     {
