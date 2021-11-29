@@ -41,6 +41,7 @@ class Products extends Model{
         ));
         $this->setData($results[0]);
     }
+  
     public function checkPhoto()
     {
         if(file_exists($_SERVER['DOCUMENT_ROOT'] . 
