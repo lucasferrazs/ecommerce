@@ -13,6 +13,7 @@ require_once("admin.php");
 require_once("admin-users.php");
 require_once("admin-categories.php");
 require_once("admin-products.php");
+require_once("functions.php");
 //essa função tras o por padrao com o metodo get, transformando essa pagina na pagina raiz
 $app->run();
 
