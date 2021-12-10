@@ -213,7 +213,7 @@ class Cart extends Model {
 		]);
 
 		$xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?".$qs);
-		echo json_encode($xml);
+	
 		$results = $xml->Servicos->cServico;
 		
 		 if($results->MsgErro != '')
