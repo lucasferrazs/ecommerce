@@ -75,7 +75,7 @@
                     <td><?php echo htmlspecialchars( $value1["nrqtd"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                     <td><?php echo htmlspecialchars( $value1["desproduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                     <td><?php echo htmlspecialchars( $value1["idproduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
-                    <td>R$<?php echo formatPrice($order["vltotal"]); ?></td>
+                    <td>R$<?php echo formatPrice($cart["vlsubtotal"]); ?></td>
                 </tr>
                 <?php } ?>
                 </tbody>
