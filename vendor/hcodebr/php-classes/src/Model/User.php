@@ -454,8 +454,9 @@ class User extends Model {
 
 		$results = $sql->select("
 			SELECT SQL_CALC_FOUND_ROWS *
-			FROM tb_categories
-			order by descategory
+			FROM tb_users a 
+			INNER JOIN tb_persons b USING(idperson) 
+			ORDER BY b.desperson
 			LIMIT $start, $itemsPerPage;
 		");
 
@@ -478,9 +479,10 @@ class User extends Model {
 
 		$results = $sql->select("
 			SELECT SQL_CALC_FOUND_ROWS *
-			FROM tb_categories
-			WHERE descategory LIKE :search 
-			order by descategory
+			FROM tb_users a 
+			INNER JOIN tb_persons b USING(idperson)
+			WHERE b.desperson LIKE :search OR b.desemail = :search OR a.deslogin LIKE :search
+			ORDER BY b.desperson
 			LIMIT $start, $itemsPerPage;
 		", [
 			':search'=>'%'.$search.'%'

@@ -155,6 +155,7 @@ $app->get("/checkout", function (){
 		$cart->getCalculateTotal();
 	}
 	if (!$address->getdesaddress()) $address->setdesaddress('');
+	if (!$address->getdesnumber()) $address->setdesnumber('');
 	if (!$address->getdesdistrict()) $address->setdesdistrict('');
 	if (!$address->getdescity()) $address->setdescity('');
 	if (!$address->getdesstate()) $address->setdesstate('');
@@ -167,7 +168,7 @@ $app->get("/checkout", function (){
 		'cart'=>$cart->getValues(),
 		'address'=>$address->getValues(),
 		'products'=>$cart->getProducts(),
-		'error'=>Address::getMsgError()
+		'checkoutError'=>Address::getMsgError()
 	]);
 });
 
@@ -228,7 +229,6 @@ $app->post("/checkout", function(){
 		'iduser'=>$user->getiduser(),
 		'idstatus'=>OrderStatus::EM_ABERTO,
 		'vltotal'=>$cart->getvltotal()
-
 	]);
 
 	$order->save();
@@ -428,9 +428,12 @@ $app->post("/profile", function(){
 	exit;
 });
 
-$app->get("/order/:idorder", function($idorder){
+$app->get("/order/:idorder", function($idorder)
+{
 	$order = new Order();
+
 	$order->get((int)$idorder);
+
 	User::verifyLogin(false); 
 	$page = new Page();
 
@@ -603,7 +606,5 @@ $app->get("/profile/change-password", function(){
 	exit;
 
 });
-
-
 
 ?>
